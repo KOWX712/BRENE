@@ -4,8 +4,8 @@ KSU_BIN=/data/adb/ksu/bin/ksud
 SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 
 # Update Description
-text1='[Kernel: ❌, Module: ❌, Hiding: ❌] SuSFS module for custom kernels with SuSFS patches'
-text2='[Kernel: ✅, Module: ✅, Hiding: ✅] SuSFS module for custom kernels with SuSFS patches'
+text1='Kernel: ❌, Module: ❌, Hiding: ❌ SuSFS module for custom kernels with SuSFS patches'
+text2='Kernel: ✅, Module: ✅, Hiding: ✅ SuSFS module for custom kernels with SuSFS patches'
 if ksu_susfs show version 2>/dev/null; then
 	sed -i "s/$text1/$text2/" ${MODDIR}/module.prop
 else
