@@ -1,13 +1,24 @@
-## A KernelSU module for SUSFS patched kernel
-
-This module is used for installing a userspace helper tool called **ksu_susfs** into /data/adb/ and provides a script example to communicate with SUSFS kernel.
+# BRENE - A SuSFS module for custom kernels with SuSFS patches
 
 More information soon.
 
 ## Supported Versions
 
-- KernelSU v2.0.0+
-- susfs4ksu v2.0.0+
+- `KernelSU` v2.0.0+
+- `susfs4ksu` v2.0.0+
+
+## Features
+
+- Hide all paths in `/data/local/tmp`
+- Hide all leaking app paths in `/sdcard/Android/data`
+- Hide some folder paths of `Rooted Apps`
+- Hide some folder paths of `Custom Recoveries`
+- Hide some traces caused by some `Custom Kernels`
+- Hide some map traces caused by some `Font Modules`
+- Hide some map traces caused by some `Zygisk Modules`
+- Hide the exposed /proc interface of ext4 loop and jdb2 when mounting `modules.img`
+- Spoof some `Android System Properties`
+- Spoof the sus `'su'` tcontext shown in avc log
 
 ## Tip
 
@@ -15,7 +26,7 @@ More information soon.
 
 ## Credits
 
-- [Magisk](https://github.com/topjohnwu/Magisk)
-- [KernelSU](https://github.com/tiann/KernelSU)
-- [susfs4ksu](https://gitlab.com/simonpunk/susfs4ksu)
-- [sidex15's susfs4ksu-module](https://github.com/sidex15/susfs4ksu-module)
+- [`Magisk`](https://github.com/topjohnwu/Magisk)
+- [`KernelSU`](https://github.com/tiann/KernelSU)
+- [`susfs4ksu`](https://gitlab.com/simonpunk/susfs4ksu)
+- [`sidex15's susfs4ksu-module`](https://github.com/sidex15/susfs4ksu-module)
