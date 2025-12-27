@@ -52,33 +52,15 @@ susfs_hexpatch_prop_name() {
 	fi
 }
 
-check_missing_prop() {
-  local NAME=$1
-  local EXPECTED=$2
-  local VALUE=$(resetprop $NAME)
-  [ -z $VALUE ] && resetprop $NAME $EXPECTED # if the property is missing
-}
-
-check_reset_prop() {
-  local NAME=$1
-  local EXPECTED=$2
-  local VALUE=$(resetprop $NAME)
-  [ -z $VALUE ] || [ $VALUE = $EXPECTED ] || resetprop $NAME $EXPECTED # if the property is not what we expect
-}
-
-check_missing_match_prop() {
-  local NAME=$1
-  local EXPECTED=$2
-  local VALUE=$(resetprop $NAME)
-  [ -z $VALUE ] || [ $VALUE = $EXPECTED ] || resetprop $NAME $EXPECTED # if the property is not what we expect
-  [ -z $VALUE ] && resetprop $NAME $EXPECTED # if the property is missing
+resetprop_n() {
+	resetprop -n $1 $2
 }
 
 contains_reset_prop() {
   local NAME=$1
   local CONTAINS=$2
   local NEWVAL=$3
-  [[ "$(resetprop $NAME)" = *"$CONTAINS"* ]] && resetprop $NAME $NEWVAL
+  [[ "$(resetprop $NAME)" = *"$CONTAINS"* ]] && resetprop -n $NAME $NEWVAL
 }
 
 # EOF
