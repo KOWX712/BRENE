@@ -91,12 +91,12 @@ ${SUSFS_BIN} add_sus_path /system/vendor/bin/install-recovery.sh
 # EOF
 
 #### Hiding the exposed /proc interface of ext4 loop and jdb2 when mounting modules.img using sus_path ####
-if [[ $config_hide_modules_img == 1 ]]; then
-	for device in $(ls -Ld /proc/fs/jbd2/loop*8 | sed 's|/proc/fs/jbd2/||; s|-8||'); do
-		${SUSFS_BIN} add_sus_path /proc/fs/jbd2/${device}-8
-		${SUSFS_BIN} add_sus_path /proc/fs/ext4/${device}
-	done
-fi
+# if [[ $config_hide_modules_img == 1 ]]; then
+# 	for device in $(ls -Ld /proc/fs/jbd2/loop*8 | sed 's|/proc/fs/jbd2/||; s|-8||'); do
+# 		${SUSFS_BIN} add_sus_path /proc/fs/jbd2/${device}-8
+# 		${SUSFS_BIN} add_sus_path /proc/fs/ext4/${device}
+# 	done
+# fi
 
 
 #### Enable avc log spoofing to bypass 'su' domain detection via /proc/<pid> enumeration ####
