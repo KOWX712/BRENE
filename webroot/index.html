@@ -5,14 +5,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>BRENE</title>
 
+		<link rel="stylesheet" href="@material/web/all.css" />
 		<link rel="stylesheet" type="text/css" href="/internal/insets.css" />
 
 		<style>
 			:root {
 				--md-sys-color-primary: #3b3b3b;
+				--md-sys-color-outline: #3b3b3b;
 				--md-sys-color-on-primary: #000000;
-				--md-sys-color-outline: #6f7979;
-				--md-sys-color-surface-container-highest: #dde4e3;
+				--md-sys-color-surface-container-highest: #000000;
 
 				--bg: #000000;
 				--fg: #ffffff;
@@ -20,7 +21,8 @@
 				--item-gap: 12px;
 			}
 			body {
-				/* padding-top: var(--top-inset); */
+				padding-top: var(--window-inset-top, 0px);
+				padding-bottom: var(--window-inset-bottom, 0px);
 				margin: 0;
 				display: flex;
 				width: 100%;
@@ -42,87 +44,85 @@
 				padding: 0 var(--label-pad);
 				margin: 6px 0px;
 			}
-			h1 {
-				display: flex;
-				align-items: center;
-				padding: 0 var(--label-pad);
-				margin: 6px 0px;
-				margin-top: 36px;
-			}
 			.item-version {
-				font-size: 20px;
+				font-size: 24px;
 				padding: 0px 10px;
 			}
 			md-switch {
 				margin-left: auto;
 				pointer-events: initial;
 			}
+			.preload-hidden {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
-		<h1>
-			BRENE
-			<span class="item-version" id="brene-version"> v0.0.0 </span>
-			SuSFS
-			<span class="item-version" id="susfs-version"> v0.0.0+ </span>
-		</h1>
+		<div class="preload-hidden">
+			<h1 class="title">
+				BRENE
+				<span class="item-version" id="brene-version"> v0.0.0 </span>
+				SuSFS
+				<span class="item-version" id="susfs-version"> v0.0.0+ </span>
+			</h1>
 
-		<label class="toggle-option">
-			Hide all paths in /data/local/tmp
-			<md-switch selected id="switch_hide_data_local_tmp"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Hide all paths in /data/local/tmp
+				<md-switch selected id="switch_hide_data_local_tmp"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Hide all paths in /sdcard/Android/data
-			<md-switch selected id="switch_hide_sdcard_android_data"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Hide all paths in /sdcard/Android/data
+				<md-switch selected id="switch_hide_sdcard_android_data"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Hide Rooted App Folders
-			<md-switch selected id="switch_hide_rooted_app_folders"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Hide Rooted App Folders
+				<md-switch selected id="switch_hide_rooted_app_folders"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Hide Custom Recovery Folders
-			<md-switch selected id="switch_hide_custom_recovery_folders"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Hide Custom Recovery Folders
+				<md-switch selected id="switch_hide_custom_recovery_folders"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Hide modules.img
-			<md-switch selected id="switch_hide_modules_img"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Hide modules.img
+				<md-switch selected id="switch_hide_modules_img"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Hide Font Modules
-			<md-switch selected id="switch_hide_font_modules"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Hide Font Modules
+				<md-switch selected id="switch_hide_font_modules"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Hide Zygisk Modules
-			<md-switch selected id="switch_hide_zygisk_modules"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Hide Zygisk Modules
+				<md-switch selected id="switch_hide_zygisk_modules"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Hide Suspicious Mounts For All Processes
-			<md-switch selected id="switch_hide_sus_mnts_for_all_procs"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Hide Suspicious Mounts For All Processes
+				<md-switch selected id="switch_hide_sus_mnts_for_all_procs"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Enable AVC Log Spoofing
-			<md-switch selected id="switch_enable_avc_log_spoofing"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Enable AVC Log Spoofing
+				<md-switch selected id="switch_enable_avc_log_spoofing"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Enable Kernel Uname Spoofing
-			<md-switch selected id="switch_uname_spoofing"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Enable Kernel Uname Spoofing
+				<md-switch selected id="switch_uname_spoofing"></md-switch>
+			</label>
 
-		<label class="toggle-option">
-			Enable Log
-			<md-switch selected id="switch_enable_log"></md-switch>
-		</label>
+			<label class="toggle-option">
+				Enable Log
+				<md-switch selected id="switch_enable_log"></md-switch>
+			</label>
 
-		<h2 class="title">Enabled Features</h2>
+			<h2 class="title">Enabled Features in Kernel</h2>
+		</div>
 
 		<script src="./script.min.js"></script>
 	</body>

@@ -1,5 +1,7 @@
-import {exec, spawn, toast, moduleInfo} from 'kernelsu'
+import {exec, toast} from 'kernelsu'
 import '@material/web/all.js'
+
+document.querySelector('div.preload-hidden').classList.remove('preload-hidden')
 
 const MODDIR = '/data/adb/modules/brene'
 const PERSISTENT_DIR = '/data/adb/brene'
@@ -10,7 +12,7 @@ exec('susfs show enabled_features').then(result => {
 	if (result.errno !== 0) return
 
 	const element = document.createElement('div')
-	element.innerText = result.stdout
+	element.innerText = result.stdout.replaceAll('CONFIG_KSU_', '')
 	element.className = 'toggle-option'
 	document.body.appendChild(element)
 })
