@@ -1,4 +1,4 @@
-import {exec, toast} from 'kernelsu'
+import {exec, toast, spawn} from 'kernelsu'
 import '@material/web/all.js'
 
 document.querySelector('div.preload-hidden').classList.remove('preload-hidden')
@@ -266,5 +266,51 @@ exec('susfs show version').then(result => {
 
 			exec(`sed -i "s/^${configID}=.*/${newConfig}/" ${PERSISTENT_DIR}/config.sh`)
 		})
+	})
+})()
+//
+//
+//
+;(() => {
+	const mdSwitchID = 'switch_enable_ksu_modules'
+	const element = document.querySelector(`md-switch#${mdSwitchID}`)
+	const element2 = document.querySelector(`md-switch#switch_disable_ksu_modules`)
+	element.addEventListener('click', () => {
+		if (element2.selected) element2.dispatchEvent(new Event('click', {bubbles: true}))
+
+		spawn('for', [
+			'i',
+			'in',
+			'$(ls /data/adb/modules);',
+			'do',
+			'[ -f "/data/adb/modules/${i}/disable" ]',
+			'&&',
+			'rm',
+			'"/data/adb/modules/${i}/disable";',
+			'done'
+		])
+	})
+})()
+//
+//
+//
+;(() => {
+	const mdSwitchID = 'switch_disable_ksu_modules'
+	const element = document.querySelector(`md-switch#${mdSwitchID}`)
+	const element2 = document.querySelector(`md-switch#switch_enable_ksu_modules`)
+	element.addEventListener('click', () => {
+		if (element2.selected) element2.dispatchEvent(new Event('click', {bubbles: true}))
+
+		spawn('for', [
+			'i',
+			'in',
+			'$(ls /data/adb/modules);',
+			'do',
+			'[ ! -f "/data/adb/modules/${i}/disable" ]',
+			'&&',
+			'touch',
+			'"/data/adb/modules/${i}/disable";',
+			'done'
+		])
 	})
 })()
