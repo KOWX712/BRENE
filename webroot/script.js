@@ -10,12 +10,13 @@ const KSU_BIN = '/data/adb/ksu/bin/ksud'
 
 // Load enabled features
 exec('susfs show enabled_features').then(result => {
-	if (result.errno !== 0) return
+	const container = document.querySelector('#kernel-features-container')
 
-	const element = document.createElement('div')
-	element.innerText = result.stdout.replaceAll('CONFIG_KSU_', '')
-	element.className = 'toggle-option'
-	document.body.appendChild(element)
+	if (result.errno !== 0) {
+		container.innerText = 'Failed to load enabled features'
+		return
+	}
+	container.innerText = result.stdout.replaceAll('CONFIG_KSU_', '')
 })
 
 // Load brene version
