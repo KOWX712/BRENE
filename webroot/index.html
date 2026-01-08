@@ -20,7 +20,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						All Items in /data/local/tmp
-						<md-switch icons selected id="switch_hide_data_local_tmp"></md-switch>
+						<md-switch icons selected id="hide_data_local_tmp"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -28,7 +28,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						All Items in /sdcard/Android/data
-						<md-switch icons selected id="switch_hide_sdcard_android_data"></md-switch>
+						<md-switch icons selected id="hide_sdcard_android_data"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -36,7 +36,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						Rooted App Folders
-						<md-switch icons selected id="switch_hide_rooted_app_folders"></md-switch>
+						<md-switch icons selected id="hide_rooted_app_folders"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -44,7 +44,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						Custom Recovery Folders
-						<md-switch icons selected id="switch_hide_custom_recovery_folders"></md-switch>
+						<md-switch icons selected id="hide_custom_recovery_folders"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -52,7 +52,7 @@
 				<!-- <div class="toggle-container">
 					<label class="toggle-option">
 						modules.img
-						<md-switch icons selected id="switch_hide_modules_img"></md-switch>
+						<md-switch icons selected id="hide_modules_img"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div> -->
@@ -60,7 +60,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						Some Font Modules
-						<md-switch icons selected id="switch_hide_font_modules"></md-switch>
+						<md-switch icons selected id="hide_font_modules"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -68,7 +68,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						Some Zygisk Modules
-						<md-switch icons selected id="switch_hide_zygisk_modules"></md-switch>
+						<md-switch icons selected id="hide_zygisk_modules"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -76,7 +76,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						Suspicious Mounts For All Processes
-						<md-switch icons selected id="switch_hide_sus_mnts_for_all_procs"></md-switch>
+						<md-switch icons selected id="hide_sus_mnts_for_all_procs"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -87,7 +87,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						Uname
-						<md-switch icons selected id="switch_uname_spoofing"></md-switch>
+						<md-switch icons selected id="uname_spoofing"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -95,7 +95,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						Set custom uname on boot
-						<md-switch icons selected id="switch_custom_uname_set_on_boot"></md-switch>
+						<md-switch icons selected id="custom_uname_spoofing"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -117,7 +117,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						AVC Log
-						<md-switch icons selected id="switch_enable_avc_log_spoofing"></md-switch>
+						<md-switch icons selected id="enable_avc_log_spoofing"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -125,7 +125,7 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						SuSFS Logs
-						<md-switch icons selected id="switch_enable_log"></md-switch>
+						<md-switch icons selected id="enable_log"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
@@ -136,23 +136,21 @@
 				<div class="toggle-container">
 					<label class="toggle-option">
 						Enable Kernel Umount
-						<md-switch icons selected id="switch_kernel_umount"></md-switch>
+						<md-switch icons selected id="kernel_umount"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
 
 				<div class="toggle-container">
-					<label class="toggle-option">
+					<label class="toggle-option" id="enable_ksu_modules">
 						Enable All KernelSU Modules
-						<md-switch icons id="switch_enable_ksu_modules"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
 
 				<div class="toggle-container">
-					<label class="toggle-option">
+					<label class="toggle-option" id="disable_ksu_modules">
 						Disable All KernelSU Modules
-						<md-switch icons id="switch_disable_ksu_modules"></md-switch>
 					</label>
 					<md-ripple></md-ripple>
 				</div>
