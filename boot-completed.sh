@@ -11,20 +11,18 @@ description=", A SuSFS module for custom kernels with SuSFS patches"
 susfs_ver=$(${SUSFS_BIN} show version 2>/dev/null)
 if [ -n ${susfs_ver} ]; then
 	if [ -d "/data/adb/modules/rezygisk" ] && [ ! -f "/data/adb/modules/rezygisk/disable" ]; then
-		new_description="description=Kernel: ${susfs_ver} ✅, Module: ✅, Hiding: ✅, ReZygisk: ✅${description}"
-		sed -i "s/^description=.*/${new_description}/" ${MODDIR}/module.prop
+		new_description="Kernel: ${susfs_ver} ✅, Module: ✅, Hiding: ✅, ReZygisk: ✅${description}"
 	else
-		new_description="description=Kernel: ${susfs_ver} ✅, Module: ✅, Hiding: ✅${description}"
-		sed -i "s/^description=.*/${new_description}/" ${MODDIR}/module.prop
+		new_description="Kernel: ${susfs_ver} ✅, Module: ✅, Hiding: ✅${description}"
 	fi
 else
-	new_description="description=Kernel: ❌, Module: ❌, Hiding: ❌${description}"
-	sed -i "s/^description=.*/${new_description}/" ${MODDIR}/module.prop
+	new_description="Kernel: ❌, Module: ❌, Hiding: ❌${description}"
 fi
-
+sed -i "s/^description=.*/description=${new_description}/" ${MODDIR}/module.prop
 
 # Enable kernel umount
-[[ $config_kernel_umount == 1 ]] && ${KSU_BIN} feature set 1 1 || ${KSU_BIN} feature set 1 0
+${KSU_BIN} feature set kernel_umount $config_kernel_umount
+${KSU_BIN} feature save
 
 
 #### Hide the mmapped real file from various maps in /proc/self/ ####

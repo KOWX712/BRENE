@@ -1,4 +1,4 @@
-import { exec, toast, spawn } from './assets/kernelsu.js'
+import { exec, toast } from './assets/kernelsu.js'
 import './assets/mwc.js'
 
 document.querySelector('div.preload-hidden').classList.remove('preload-hidden')
@@ -12,10 +12,7 @@ const configs = [
 	{ id: 'enable_avc_log_spoofing' },
 	{
 		id: 'hide_sus_mnts_for_all_procs',
-		action: (enabled) => {
-			exec(`${SUSFS_BIN} hide_sus_mnts_for_all_procs ${enabled ? 1 : 0}`)
-			toast('No need to reboot')
-		}
+		action: (enabled) => setFeature(`${SUSFS_BIN} hide_sus_mnts_for_all_procs ${enabled ? 1 : 0}`)
 	},
 	{ id: 'uname_spoofing' },
 	{ id: 'hide_data_local_tmp' },
@@ -27,10 +24,7 @@ const configs = [
 	{ id: 'hide_sdcard_android_data' },
 	{
 		id: 'kernel_umount',
-		action: (enabled) => {
-			exec(`${KSU_BIN} feature set 1 ${enabled ? 1 : 0}`)
-			toast('No need to reboot')
-		}
+		action: (enabled) => setFeature(`${KSU_BIN} feature set kernel_umount ${enabled ? 1 : 0} && ${KSU_BIN} feature save`)
 	},
 	{ id: 'custom_uname_spoofing' },
 ]
@@ -48,19 +42,29 @@ exec('susfs show enabled_features').then(result => {
 
 // Load brene version
 exec(`grep "^version=" ${MODDIR}/module.prop | cut -d'=' -f2`).then(result => {
-	if (result.errno !== 0) return
-
 	const element = document.getElementById('brene-version')
-	element.innerText = result.stdout
+	element.innerText = result.errno === 0 ? result.stdout : 'unknown'
 })
 
 // Load susfs version
 exec('susfs show version').then(result => {
-	if (result.errno !== 0) return
-
 	const element = document.getElementById('susfs-version')
-	element.innerText = `${result.stdout}+`
+	element.innerText = result.errno === 0 ? `${result.stdout}+` : 'unknown'
 })
+
+// Helper function to update config
+function updateConfig(config, value) {
+	exec(`sed -i "s/^${config}=.*/${config}=${value}/" ${PERSISTENT_DIR}/config.sh`).then((result) => {
+		if (result.errno !== 0) toast('Failed to update config')
+	})
+}
+
+// Helper funtino to set config immedialtely that no need to reboot
+function setFeature(cmd) {
+	exec(cmd).then(result => {
+		toast(result.errno === 0 ? 'No need to reboot' : result.stderr)
+	})
+}
 
 // Load config and add toggle event
 exec(`cat ${PERSISTENT_DIR}/config.sh`).then(result => {
@@ -78,6 +82,11 @@ exec(`cat ${PERSISTENT_DIR}/config.sh`).then(result => {
 			})
 	)
 
+	// uname
+	document.getElementById('custom_uname_release').value = configValues['config_custom_uname_kernel_release']
+	document.getElementById('custom_uname_version').value = configValues['config_custom_uname_kernel_version']
+
+	// toggle
 	configs.forEach(config => {
 		const configId = `config_${config.id}`
 		const element = document.getElementById(config.id)
@@ -91,7 +100,7 @@ exec(`cat ${PERSISTENT_DIR}/config.sh`).then(result => {
 		element.addEventListener('change', () => {
 			const enabled = element.selected
 			const newConfigValue = +enabled
-			exec(`sed -i "s/^${configId}=.*/${configId}=${newConfigValue}/" ${PERSISTENT_DIR}/config.sh`)
+			updateConfig(configId, newConfigValue)
 			if (config.action) config.action(enabled)
 		})
 	})
@@ -103,15 +112,13 @@ exec(`cat ${PERSISTENT_DIR}/config.sh`).then(result => {
 	const disableSwitch = document.getElementById('disable_ksu_modules')
 
 	const toggleAllModules = (enable) => {
-		spawn('for', [
-			'i',
-			'in',
-			'$(ls /data/adb/modules);',
-			'do',
-			enable ? 'rm -f' : 'touch',
-			'"/data/adb/modules/${i}/disable";',
-			'done'
-		])
+		exec(`
+			for i in /data/adb/modules/*; do
+				${enable ? 'rm -f' : 'touch'} "$i/disable"
+			done
+		`).then(result => {
+			toast(result.errno === 0 ? 'success' : result.stderr)
+		})
 	}
 
 	enableSwitch.addEventListener('click', () => toggleAllModules(true))
@@ -120,31 +127,18 @@ exec(`cat ${PERSISTENT_DIR}/config.sh`).then(result => {
 
 // Custom Uname buttons
 ; (() => {
-	const resetButton = document.getElementById(`button_custom_uname_reset`)
-	resetButton.onclick = () => {
-		const configID1 = 'config_custom_uname_kernel_release'
-		const configID2 = 'config_custom_uname_kernel_version'
-		const newConfig1 = `${configID1}='default'`
-		const newConfig2 = `${configID2}='default'`
-
-		exec(`sed -i "s/^${configID1}=.*/${newConfig1}/" ${PERSISTENT_DIR}/config.sh`)
-		exec(`sed -i "s/^${configID2}=.*/${newConfig2}/" ${PERSISTENT_DIR}/config.sh`)
-
-		exec(`${SUSFS_BIN} set_uname 'default' 'default'`)
+	const unameRelease = document.getElementById('custom_uname_release')
+	const unameVersion = document.getElementById('custom_uname_version')
+	const updateUname = (release, version) => {
+		updateConfig('config_custom_uname_kernel_release', release)
+		updateConfig('config_custom_uname_kernel_version', version.trim() === '' ? 'default' : version)
+		setFeature(`${SUSFS_BIN} set_uname "${release}" "${version}"`)
+		unameRelease.value = release
+		unameVersion.value = version.trim() === '' ? 'default' : version
 	}
 
-	const applyButton = document.getElementById(`button_custom_uname_apply`)
-	applyButton.onclick = () => {
-		const configID1 = 'config_custom_uname_kernel_release'
-		const configID2 = 'config_custom_uname_kernel_version'
-		const newConfigValue1 = document.getElementById('text_field_custom_uname_release').value
-		const newConfigValue2 = document.getElementById('text_field_custom_uname_version').value
-		const newConfig1 = `${configID1}='${newConfigValue1}'`
-		const newConfig2 = `${configID2}='${newConfigValue2}'`
-
-		if (newConfigValue1 !== '') exec(`sed -i "s/^${configID1}=.*/${newConfig1}/" ${PERSISTENT_DIR}/config.sh`)
-		if (newConfigValue2 !== '') exec(`sed -i "s/^${configID2}=.*/${newConfig2}/" ${PERSISTENT_DIR}/config.sh`)
-
-		exec(`${SUSFS_BIN} set_uname "${newConfigValue1}" "${newConfigValue2}"`)
+	document.getElementById(`button_custom_uname_reset`).onclick = () => updateUname('default', 'default')
+	document.getElementById(`button_custom_uname_apply`).onclick = () => {
+		if (unameRelease.value !== '') updateUname(unameRelease.value, unameVersion.value)
 	}
 })()

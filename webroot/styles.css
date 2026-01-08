@@ -19,12 +19,11 @@ body {
 .toggle-container {
 	background-color: var(--md-sys-color-surface);
 	position: relative;
-	padding: 12px 16px;
 	box-sizing: border-box;
 }
 .settings-group {
 	margin-bottom: 8px;
-	border-radius: 24px;
+	border-radius: 20px;
 	display: flex;
 	flex-direction: column;
 	gap: 2px;
@@ -32,6 +31,7 @@ body {
 }
 .toggle-option {
 	min-height: 32px;
+	padding: 12px 16px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -45,6 +45,7 @@ body {
 	width: 100%;
 	padding: 8px 16px;
 	font-size: 0.8em;
+	font-weight: 500;
 	color: var(--md-sys-color-primary);
 	box-sizing: border-box;
 	user-select: none;
@@ -60,13 +61,13 @@ body {
 	user-select: none;
 }
 .title {
-	font-size: 1.3em;
+	font-size: 1.4em;
 	line-height: 1;
 	display: flex;
 	align-items: flex-end;
 }
 .item-version {
-	font-size: 0.5em;
+	font-size: 0.55em;
 	font-weight: 500;
 	padding: 2px 5px;
 	background-color: var(--md-sys-color-surface-variant);
