@@ -4,25 +4,25 @@ SUSFS_BIN=/data/adb/ksu/bin/ksu_susfs
 PERSISTENT_DIR=/data/adb/brene
 
 # Disable outdated modules
-echo "[✅] Disabling outdated modules"
-modules="
-zygisk_shamiko
-zygisk-assistant
-zygisk-maphide
-zygisk_nohello
-playintegrity
-integritybox
-IntegrityBox
-Integrity-Box
-safetynet-fix
-MagiskHidePropsConf
-tsupport
-tsupport-advance
-BetterKnownInstalled
-"
-for i in ${modules}; do
-	[ -d "/data/adb/modules/${i}" ] && touch "/data/adb/modules/${i}/remove"
-done
+# echo "[✅] Disabling outdated modules"
+# modules="
+# zygisk_shamiko
+# zygisk-assistant
+# zygisk-maphide
+# zygisk_nohello
+# playintegrity
+# integritybox
+# IntegrityBox
+# Integrity-Box
+# safetynet-fix
+# MagiskHidePropsConf
+# tsupport
+# tsupport-advance
+# BetterKnownInstalled
+# "
+# for i in ${modules}; do
+# 	[ -d "/data/adb/modules/${i}" ] && touch "/data/adb/modules/${i}/remove"
+# done
 
 if [ -z ${KSU} ]; then
 	abort '[❌] SuSFS is only for KernelSU or forks!'
