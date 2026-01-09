@@ -76,6 +76,7 @@ if [[ $config_hide_data_local_tmp == 1 ]]; then
 	done
 fi
 
+
 ## Please note that sometimes the path needs to be added twice or above to be effective ##
 ## Besides, all user apps without root access cannot see the hidden path '/sdcard/<hidden_path>' unless you grant it root access ##
 ## First we need to wait until files are accessible in /sdcard ##
@@ -85,6 +86,33 @@ until [ -d "/sdcard/Android/data" ]; do sleep 1; done
 ${SUSFS_BIN} set_sdcard_root_path /sdcard
 ## Next we need to set the path of /sdcard/ to tell kernel where the actual /sdcard/Android/data is ##
 ${SUSFS_BIN} set_android_data_root_path /sdcard/Android/data
+
+# Load custom_sus_map.txt
+if [ -f "${PERSISTENT_DIR}/custom_sus_map.txt" ]; then
+	while IFS= read -r i; do
+		# Skip empty lines or comments
+		[[ -z "${i}" || "${i}" == "#"* ]] && continue
+		${SUSFS_BIN} add_sus_map ${i}
+	done < "${PERSISTENT_DIR}/custom_sus_map.txt"
+fi
+
+# Load custom_sus_path.txt
+if [ -f "${PERSISTENT_DIR}/custom_sus_path.txt" ]; then
+	while IFS= read -r i; do
+		# Skip empty lines or comments
+		[[ -z "${i}" || "${i}" == "#"* ]] && continue
+		${SUSFS_BIN} add_sus_path ${i}
+	done < "${PERSISTENT_DIR}/custom_sus_path.txt"
+fi
+
+# Load custom_sus_path_loop.txt
+if [ -f "${PERSISTENT_DIR}/custom_sus_path_loop.txt" ]; then
+	while IFS= read -r i; do
+		# Skip empty lines or comments
+		[[ -z "${i}" || "${i}" == "#"* ]] && continue
+		${SUSFS_BIN} add_sus_path_loop ${i}
+	done < "${PERSISTENT_DIR}/custom_sus_path_loop.txt"
+fi
 
 for i in {0..11}; do
 	${SUSFS_BIN} set_sdcard_root_path /sdcard

@@ -1,0 +1,3 @@
+# Example
+# /system/fonts/Roboto-Regular.ttf
+# /data/adb/modules/my_module/zygisk/arm64-v8a.so

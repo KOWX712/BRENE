@@ -60,11 +60,15 @@ fi
 [ -d "/data/adb/modules/susfs4ksu" ] && touch "/data/adb/modules/susfs4ksu/disable" && echo '[✅] Disabling another SuSFS module'
 [ -d "/data/adb/modules/susfs_manager" ] && touch "/data/adb/modules/susfs_manager/disable" && echo '[✅] Disabling another SuSFS module'
 
-echo '[✅] Preparing brene persistent directory'
+echo '[✅] Preparing brene persistent directory, the path is /data/adb/brene'
 mkdir -p "${PERSISTENT_DIR}"
 
+[ ! -f ${PERSISTENT_DIR}/custom_sus_map.txt ] && cp ${MODPATH}/custom_sus_map.txt ${PERSISTENT_DIR} && echo '[✅] Added custom_sus_map.txt'
+[ ! -f ${PERSISTENT_DIR}/custom_sus_path.txt ] && cp ${MODPATH}/custom_sus_path.txt ${PERSISTENT_DIR} && echo '[✅] Added custom_sus_path.txt'
+[ ! -f ${PERSISTENT_DIR}/custom_sus_path_loop.txt ] && cp ${MODPATH}/custom_sus_path_loop.txt ${PERSISTENT_DIR} && echo '[✅] Added custom_sus_path_loop.txt'
+
 if [ ! -f ${PERSISTENT_DIR}/config.sh ]; then
-	cp ${MODPATH}/config.sh ${PERSISTENT_DIR}
+	cp ${MODPATH}/config.sh ${PERSISTENT_DIR} && echo '[✅] Added config.sh'
 else
 	while IFS='=' read -r key value; do
 
